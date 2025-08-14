@@ -1,0 +1,135 @@
+// SPDX-FileCopyrightText: 2025 Brent Rubell for Adafruit Industries
+// SPDX-License-Identifier: MIT
+// Display API for Adafruit WipperSnapper
+
+syntax = "proto3";
+
+package wippersnapper.display.v1;
+import "nanopb/nanopb.proto";
+import "wippersnapper/i2c/v1/i2c.proto";
+
+// ============================================================================
+// Enums
+// ============================================================================
+
+/**
+ * DisplayType determines the type of display
+ * and selects which driver should be used.
+ */
+enum DisplayType {
+  DISPLAY_TYPE_UNSPECIFIED = 0; /** Unspecified display type. */
+  DISPLAY_TYPE_OLED        = 1; /** OLED display type */
+  DISPLAY_TYPE_EPD         = 2; /** EPD display type */
+}
+
+/**
+ * EPDMode defines the mode of the EPD display.
+ * This affects how the display renders images.
+ */
+enum EPDMode {
+  EPD_MODE_UNSPECIFIED = 0; /** Unspecified EPD mode */
+  EPD_MODE_GRAYSCALE4  = 1; /** Grayscale 4 EPD mode */
+  EPD_MODE_MONO        = 2; /** Monochrome EPD mode */
+}
+
+/**
+ * EPDColors defines the available colors for EPD displays.
+ */
+enum EPDColors {
+  EPD_COLORS_UNSPECIFIED = 0; /** Unspecified color (for consistency) */
+  EPD_COLORS_WHITE       = 1; /** White color for EPD */
+  EPD_COLORS_BLACK       = 2; /** Black color for EPD */
+  EPD_COLORS_RED         = 3; /** Red color for EPD */
+  EPD_COLORS_GRAY        = 4; /** Gray color for EPD */
+  EPD_COLORS_DARK        = 5; /** Dark color for EPD */
+  EPD_COLORS_LIGHT       = 6; /** Light color for EPD */
+  EPD_COLORS_YELLOW      = 7; /** Yellow color for EPD */
+}
+
+// ============================================================================
+// Configuration Messages
+// ============================================================================
+
+/**
+ * EpdSpiConfig contains the configuration for SPI-based EPD displays.
+ * Includes the SPI bus number and pin assignments.
+ */
+message EpdSpiConfig {
+  int32 bus          = 1; /** The SPI bus to use */
+  string pin_dc      = 2[(nanopb).max_size = 6]; /** Pin for data/command */
+  string pin_rst     = 3[(nanopb).max_size = 6]; /** Pin for reset */
+  string pin_cs      = 4[(nanopb).max_size = 6]; /** Pin for chip select */
+  string pin_sram_cs = 5[(nanopb).max_size = 6]; /** Pin for SRAM chip select */
+  string pin_busy    = 6[(nanopb).max_size = 6]; /** Pin for busy signal */
+}
+
+/**
+ * EPDConfig contains the configuration for an EPD display.
+ * It includes the mode, dimensions, and optional pin assignments.
+ */
+message EPDConfig {
+  EPDMode mode     = 1; /** The mode of the EPD display */
+  int32 width      = 2; /** Width of the EPD display, in pixels */
+  int32 height     = 3; /** Height of the EPD display, in pixels */
+  string pin_busy  = 4[(nanopb).max_size = 6]; /** Pin for busy signal */
+  string pin_reset = 5[(nanopb).max_size = 6]; /** Pin for reset */
+}
+
+/**
+ * EPDWriteOptions contains options for writing to EPD displays.
+ */
+message EPDWriteOptions { 
+  int32 text_size = 1; /** Size of the text to write */
+  EPDColors color = 2; /** Color to use for writing */
+}
+
+// ============================================================================
+// Request Messages
+// ============================================================================
+
+/**
+ * DisplayAddOrReplace adds a new display or replaces an existing one.
+ */
+message DisplayAddOrReplace {
+  DisplayType type = 1; /** The type of display */
+  oneof interface_type {
+    EpdSpiConfig spi_epd = 2; /** SPI configuration for EPD */
+  }
+  string name = 3[(nanopb).max_size = 6]; /** Identifier for the display */
+}
+
+/**
+ * DisplayRemove removes an existing display.
+ */
+message DisplayRemove {
+  string name = 1[(nanopb).max_size = 6]; /** Identifier for the display. */
+}
+
+/**
+ * DisplayWrite writes content to a display.
+ */
+message DisplayWrite {
+  string name     = 1[(nanopb).max_size = 6]; /** Identifier for the display. */
+  string message  = 2[(nanopb).max_size = 6]; /** Message to write. */
+  oneof options {
+    EPDWriteOptions epd_options = 3; /** Options for writing to EPD displays */
+  }
+}
+
+// ============================================================================
+// Response Messages
+// ============================================================================
+
+/**
+ * DisplayAddedorReplaced confirms a display was added or replaced.
+ */
+message DisplayAddedorReplaced {
+  bool did_add = 1; /** Indicates if a display was added */
+}
+
+/**
+ * DisplayRemoved confirms a display was removed.
+ */
+message DisplayRemoved {
+  bool did_remove = 1; /** Indicates if a display was removed */
+}
