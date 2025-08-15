@@ -74,15 +74,13 @@ message EpdSpiConfig {
 
 /**
  * EPDConfig contains the configuration for an EPD display.
- * It includes the mode, dimensions, and optional pin assignments.
+ * It includes the mode, dimensions, and panel type.
  */
 message EPDConfig {
   EPDMode mode           = 1; /** The mode of the EPD display */
   EPDThinkInkPanel panel = 2; /** Specific ThinkInk panel type */
   int32 width            = 3; /** Width of the EPD display, in pixels */
   int32 height           = 4; /** Height of the EPD display, in pixels */
-  string pin_busy        = 5[(nanopb).max_size = 6]; /** Pin for busy signal */
-  string pin_reset       = 6[(nanopb).max_size = 6]; /** Pin for reset */
 }
 
 /**
