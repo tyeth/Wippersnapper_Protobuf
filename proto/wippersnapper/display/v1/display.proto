@@ -5,8 +5,8 @@
 syntax = "proto3";
 
 package wippersnapper.display.v1;
-//import "nanopb/nanopb.proto";
-import "i2c.proto";
+import "nanopb/nanopb.proto";
+import "wippersnapper/i2c/v1/i2c.proto";
 
 // ============================================================================
 // Enums
