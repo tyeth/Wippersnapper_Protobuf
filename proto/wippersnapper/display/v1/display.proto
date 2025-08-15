@@ -51,8 +51,8 @@ enum EPDColors {
  */
 enum EPDThinkInkPanel {
   EPD_THINK_INK_PANEL_UNSPECIFIED = 0; /** Unspecified ThinkInk panel type */
-  EPD_THINK_INK_PANEL_213_GRAYSCALE4_MFGN = 1;
-  EPD_THINK_INK_PANEL_213_GRAYSCALE4_T5 = 2;
+  EPD_THINK_INK_PANEL_290_GRAYSCALE4_MFGN = 1;
+  EPD_THINK_INK_PANEL_290_GRAYSCALE4_T5 = 2;
 }
 
 // ============================================================================
