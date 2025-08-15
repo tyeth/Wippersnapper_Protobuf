@@ -5,8 +5,8 @@
 syntax = "proto3";
 
 package wippersnapper.display.v1;
-import "nanopb/nanopb.proto";
-import "wippersnapper/i2c/v1/i2c.proto";
+//import "nanopb/nanopb.proto";
+import "i2c.proto";
 
 // ============================================================================
 // Enums
@@ -46,6 +46,15 @@ enum EPDColors {
   EPD_COLORS_YELLOW      = 7; /** Yellow color for EPD */
 }
 
+/**
+ * EPDThinkInkPanel defines specific ThinkInk panel types.
+ */
+enum EPDThinkInkPanel {
+  EPD_THINK_INK_PANEL_UNSPECIFIED = 0; /** Unspecified ThinkInk panel type */
+  EPD_THINK_INK_PANEL_213_GRAYSCALE4_MFGN = 1;
+  EPD_THINK_INK_PANEL_213_GRAYSCALE4_T5 = 2;
+}
+
 // ============================================================================
 // Configuration Messages
 // ============================================================================
@@ -68,11 +77,12 @@ message EpdSpiConfig {
  * It includes the mode, dimensions, and optional pin assignments.
  */
 message EPDConfig {
-  EPDMode mode     = 1; /** The mode of the EPD display */
-  int32 width      = 2; /** Width of the EPD display, in pixels */
-  int32 height     = 3; /** Height of the EPD display, in pixels */
-  string pin_busy  = 4[(nanopb).max_size = 6]; /** Pin for busy signal */
-  string pin_reset = 5[(nanopb).max_size = 6]; /** Pin for reset */
+  EPDMode mode           = 1; /** The mode of the EPD display */
+  EPDThinkInkPanel panel = 2; /** Specific ThinkInk panel type */
+  int32 width            = 3; /** Width of the EPD display, in pixels */
+  int32 height           = 4; /** Height of the EPD display, in pixels */
+  string pin_busy        = 5[(nanopb).max_size = 6]; /** Pin for busy signal */
+  string pin_reset       = 6[(nanopb).max_size = 6]; /** Pin for reset */
 }
 
 /**
@@ -92,10 +102,13 @@ message EPDWriteOptions {
  */
 message DisplayAddOrReplace {
   DisplayType type = 1; /** The type of display */
+  string name = 2[(nanopb).max_size = 64]; /** Identifier for the display */
   oneof interface_type {
-    EpdSpiConfig spi_epd = 2; /** SPI configuration for EPD */
+    EpdSpiConfig spi_epd = 3; /** SPI configuration for EPD */
   }
-  string name = 3[(nanopb).max_size = 6]; /** Identifier for the display */
+  oneof config {
+    EPDConfig epd_config = 4; /** Configuration for EPD display */
+  }
 }
 
 /**
