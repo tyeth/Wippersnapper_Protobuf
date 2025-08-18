@@ -46,15 +46,6 @@ enum EPDColors {
   EPD_COLORS_YELLOW      = 7; /** Yellow color for EPD */
 }
 
-/**
- * EPDThinkInkPanel defines specific ThinkInk panel types.
- */
-enum EPDThinkInkPanel {
-  EPD_THINK_INK_PANEL_UNSPECIFIED = 0; /** Unspecified ThinkInk panel type */
-  EPD_THINK_INK_PANEL_290_GRAYSCALE4_MFGN = 1;
-  EPD_THINK_INK_PANEL_290_GRAYSCALE4_T5 = 2;
-}
-
 // ============================================================================
 // Configuration Messages
 // ============================================================================
@@ -78,9 +69,8 @@ message EpdSpiConfig {
  */
 message EPDConfig {
   EPDMode mode           = 1; /** The mode of the EPD display */
-  EPDThinkInkPanel panel = 2; /** Specific ThinkInk panel type */
-  int32 width            = 3; /** Width of the EPD display, in pixels */
-  int32 height           = 4; /** Height of the EPD display, in pixels */
+  int32 width            = 2; /** Width of the EPD display, in pixels */
+  int32 height           = 3; /** Height of the EPD display, in pixels */
 }
 
 /**
