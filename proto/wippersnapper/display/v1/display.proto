@@ -103,15 +103,15 @@ message DisplayAddOrReplace {
  * DisplayRemove removes an existing display.
  */
 message DisplayRemove {
-  string name = 1[(nanopb).max_size = 6]; /** Identifier for the display. */
+  string name = 1[(nanopb).max_size = 64]; /** Identifier for the display. */
 }
 
 /**
  * DisplayWrite writes content to a display.
  */
 message DisplayWrite {
-  string name     = 1[(nanopb).max_size = 6]; /** Identifier for the display. */
-  string message  = 2[(nanopb).max_size = 6]; /** Message to write. */
+  string name     = 1[(nanopb).max_size = 64]; /** Identifies the display. */
+  string message  = 2[(nanopb).max_size = 1024]; /** Message to write. */
   oneof options {
     EPDWriteOptions epd_options = 3; /** Options for writing to EPD displays */
   }
