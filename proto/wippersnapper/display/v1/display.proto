@@ -68,9 +68,7 @@ message EpdSpiConfig {
  * It includes the mode, dimensions, and panel type.
  */
 message EPDConfig {
-  EPDMode mode           = 1; /** The mode of the EPD display */
-  int32 width            = 2; /** Width of the EPD display, in pixels */
-  int32 height           = 3; /** Height of the EPD display, in pixels */
+  EPDMode mode = 1; /** The mode of the EPD display */
 }
 
 /**
@@ -125,12 +123,14 @@ message DisplayWrite {
  * DisplayAddedorReplaced confirms a display was added or replaced.
  */
 message DisplayAddedorReplaced {
-  bool did_add = 1; /** Indicates if a display was added */
+  string name  = 1[(nanopb).max_size = 64]; /** Identifier for the display. */
+  bool did_add = 2; /** Indicates if a display was added */
 }
 
 /**
  * DisplayRemoved confirms a display was removed.
  */
 message DisplayRemoved {
-  bool did_remove = 1; /** Indicates if a display was removed */
+  string name     = 1[(nanopb).max_size = 64]; /** Identifies the display. */
+  bool did_remove = 2; /** Indicates if a display was removed */
 }
