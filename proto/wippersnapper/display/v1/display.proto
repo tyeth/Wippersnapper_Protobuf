@@ -32,20 +32,6 @@ enum EPDMode {
   EPD_MODE_MONO        = 2; /** Monochrome EPD mode */
 }
 
-/**
- * EPDColors defines the available colors for EPD displays.
- */
-enum EPDColors {
-  EPD_COLORS_UNSPECIFIED = 0; /** Unspecified color (for consistency) */
-  EPD_COLORS_WHITE       = 1; /** White color for EPD */
-  EPD_COLORS_BLACK       = 2; /** Black color for EPD */
-  EPD_COLORS_RED         = 3; /** Red color for EPD */
-  EPD_COLORS_GRAY        = 4; /** Gray color for EPD */
-  EPD_COLORS_DARK        = 5; /** Dark color for EPD */
-  EPD_COLORS_LIGHT       = 6; /** Light color for EPD */
-  EPD_COLORS_YELLOW      = 7; /** Yellow color for EPD */
-}
-
 // ============================================================================
 // Configuration Messages
 // ============================================================================
@@ -76,7 +62,6 @@ message EPDConfig {
  */
 message EPDWriteOptions { 
   int32 text_size = 1; /** Size of the text to write */
-  EPDColors color = 2; /** Color to use for writing */
 }
 
 // ============================================================================
