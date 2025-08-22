@@ -54,6 +54,14 @@ Device->>ws_display controller: DisplayRemove
 ws_display controller->>ws_display hardware: Delete hardware instance
 
 ws_display hardware->>ws_display driver: Delete driver instance
+
+ws_display driver->>ws_display hardware: Deletion Result
+
+ws_display hardware->>ws_display controller: Deletion Result
+
+ws_display controller-->>Device: DisplayRemoved
+
+Device-->>IO: DisplayRemoved
 ```
 
 ### Writing to a Display from IO

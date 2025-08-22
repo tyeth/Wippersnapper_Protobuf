@@ -61,7 +61,7 @@ message EPDConfig {
  * EPDWriteOptions contains options for writing to EPD displays.
  */
 message EPDWriteOptions { 
-  int32 text_size = 1; /** Size of the text to write */
+  int32 text_size = 1; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
 }
 
 // ============================================================================
