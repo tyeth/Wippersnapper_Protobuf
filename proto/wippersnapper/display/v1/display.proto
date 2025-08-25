@@ -20,6 +20,7 @@ enum DisplayType {
   DISPLAY_TYPE_UNSPECIFIED = 0; /** Unspecified display type. */
   DISPLAY_TYPE_OLED        = 1; /** OLED display type */
   DISPLAY_TYPE_EPD         = 2; /** EPD display type */
+  DISPLAY_TYPE_TFT         = 3; /** TFT display type */
 }
 
 /**
