@@ -64,6 +64,26 @@ message EPDWriteOptions {
   int32 text_size = 1; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
 }
 
+/**
+ * TftSpiConfig contains the configuration for SPI TFT displays.
+ * Includes the SPI bus number and pin assignments.
+ */
+message TftSpiConfig {
+  int32 bus          = 1; /** The SPI bus to use */
+  string pin_cs      = 2[(nanopb).max_size = 6]; /** Pin for chip select */
+  string pin_dc      = 3[(nanopb).max_size = 6]; /** Pin for data/command */
+  string pin_mosi    = 4[(nanopb).max_size = 6]; /** Pin for MOSI */
+  string pin_sck     = 5[(nanopb).max_size = 6]; /** Pin for SCK */
+  string pin_rst     = 6[(nanopb).max_size = 6]; /** Pin for reset */
+  string pin_miso    = 7[(nanopb).max_size = 6]; /** Pin for MISO */
+}
+
+message TftConfig {
+  int32 width  = 1;   /** Width of the TFT display in pixels */
+  int32 height = 2;   /** Height of the TFT display in pixels */
+  int32 rotation = 3; /** Rotation of the display (0-3) */
+}
+
 // ============================================================================
 // Request Messages
 // ============================================================================
@@ -76,9 +96,11 @@ message DisplayAddOrReplace {
   string name = 2[(nanopb).max_size = 64]; /** Identifier for the display */
   oneof interface_type {
     EpdSpiConfig spi_epd = 3; /** SPI configuration for EPD */
+    TftSpiConfig spi_tft = 4; /** SPI configuration for TFT */
   }
   oneof config {
-    EPDConfig epd_config = 4; /** Configuration for EPD display */
+    EPDConfig config_epd = 5; /** Configuration for EPD display */
+    TftConfig config_tft = 6; /** Configuration for TFT display */
   }
 }
 
