@@ -33,21 +33,43 @@ enum EPDMode {
   EPD_MODE_MONO        = 2; /** Monochrome EPD mode */
 }
 
+/**
+* Desired SSD1306 text 'magnification' size.
+*/
+enum SSD1306TextSize {
+  SSD1306_TEXT_SIZE_UNSPECIFIED = 0; /** Unspecified text size. **/
+  SSD1306_TEXT_SIZE_1           = 1; /** Default text size, 6x8px. **/
+  SSD1306_TEXT_SIZE_2           = 2; /** Larger text size option, 12x16px. **/
+}
+
+/**
+* LEDBackpackAlignment represents all text alignment
+* options for LED backpack displays
+*/
+enum LEDBackpackAlignment {
+  LED_BACKPACK_ALIGNMENT_UNSPECIFIED = 0; /** Unspecified alignment option. **/
+  LED_BACKPACK_ALIGNMENT_LEFT        = 1; /** (Default) Left-aligned. **/
+  LED_BACKPACK_ALIGNMENT_RIGHT       = 2; /** Right-aligned. **/
+}
+
 // ============================================================================
 // Configuration Messages
 // ============================================================================
 
 /**
- * EpdSpiConfig contains the configuration for SPI-based EPD displays.
+ * SpiConfig contains the configuration for SPI-based displays.
  * Includes the SPI bus number and pin assignments.
  */
-message EpdSpiConfig {
+message SpiConfig {
   int32 bus          = 1; /** The SPI bus to use */
   string pin_dc      = 2[(nanopb).max_size = 6]; /** Pin for data/command */
   string pin_rst     = 3[(nanopb).max_size = 6]; /** Pin for reset */
   string pin_cs      = 4[(nanopb).max_size = 6]; /** Pin for chip select */
   string pin_sram_cs = 5[(nanopb).max_size = 6]; /** Pin for SRAM chip select */
   string pin_busy    = 6[(nanopb).max_size = 6]; /** Pin for busy signal */
+  string pin_mosi    = 7[(nanopb).max_size = 6]; /** Pin for MOSI */
+  string pin_sck     = 8[(nanopb).max_size = 6]; /** Pin for SCK */
+  string pin_miso    = 9[(nanopb).max_size = 6]; /** Pin for MISO */
 }
 
 /**
@@ -65,24 +87,39 @@ message EPDWriteOptions {
   int32 text_size = 1; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
 }
 
-/**
- * TftSpiConfig contains the configuration for SPI TFT displays.
- * Includes the SPI bus number and pin assignments.
- */
-message TftSpiConfig {
-  int32 bus          = 1; /** The SPI bus to use */
-  string pin_cs      = 2[(nanopb).max_size = 6]; /** Pin for chip select */
-  string pin_dc      = 3[(nanopb).max_size = 6]; /** Pin for data/command */
-  string pin_mosi    = 4[(nanopb).max_size = 6]; /** Pin for MOSI */
-  string pin_sck     = 5[(nanopb).max_size = 6]; /** Pin for SCK */
-  string pin_rst     = 6[(nanopb).max_size = 6]; /** Pin for reset */
-  string pin_miso    = 7[(nanopb).max_size = 6]; /** Pin for MISO */
-}
-
 message TftConfig {
   int32 width  = 1;   /** Width of the TFT display in pixels */
   int32 height = 2;   /** Height of the TFT display in pixels */
   int32 rotation = 3; /** Rotation of the display (0-3) */
+}
+
+message I2cConfig {
+  wippersnapper.i2c.v1.I2CDeviceInitRequest i2c = 1; /** I2C configuration */
+}
+
+/**
+* SSD1306Config represents the configuration for a SSD1306 OLED display.
+*/
+message SSD1306Config {
+  uint32 width              = 1; /** Width of the display. **/
+  uint32 height             = 2; /** Height of the display. **/
+  SSD1306TextSize text_size = 3; /** Desired text 'magnification' size. **/
+}
+
+/**
+* LEDBackpackConfig represents the configuration for a LED backpack display.
+*/
+message LEDBackpackConfig {
+  int32 brightness                = 1; /** Desired brightness of the LED backpack, from 0 (off) to 15 (full brightness). **/
+  LEDBackpackAlignment alignment  = 2; /** Desired text alignment for the LED backpack. **/
+}
+
+/**
+* CharLCDConfig represents the configuration for a character LCD display.
+*/
+message CharLCDConfig {
+  uint32 rows            = 1; /** Number of rows for the character LCD. **/
+  uint32 columns         = 2; /** Number of columns for the character LCD. **/
 }
 
 // ============================================================================
@@ -96,12 +133,15 @@ message DisplayAddOrReplace {
   DisplayType type = 1; /** The type of display */
   string name = 2[(nanopb).max_size = 64]; /** Identifier for the display */
   oneof interface_type {
-    EpdSpiConfig spi_epd = 3; /** SPI configuration for EPD */
-    TftSpiConfig spi_tft = 4; /** SPI configuration for TFT */
+    SpiConfig cfg_spi = 3; /** SPI config for EPD */
+    I2cConfig cfg_i2c = 4; /** I2C device config */
   }
   oneof config {
-    EPDConfig config_epd = 5; /** Configuration for EPD display */
-    TftConfig config_tft = 6; /** Configuration for TFT display */
+    EPDConfig config_epd = 5; /** Config for EPD display */
+    TftConfig config_tft = 6; /** Config for TFT display */
+    SSD1306Config config_ssd1306 = 7; /** Config for SSD1306 OLED */
+    LEDBackpackConfig config_led_backpack = 8; /** Config for LED backpack. */
+    CharLCDConfig config_char_lcd = 9; /** Config for character LCD. */
   }
 }
 
