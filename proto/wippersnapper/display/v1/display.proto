@@ -98,12 +98,12 @@ message I2cConfig {
 }
 
 /**
-* SSD1306Config represents the configuration for a SSD1306 OLED display.
+* OledConfig represents the configuration for an OLED display.
 */
-message SSD1306Config {
-  uint32 width              = 1; /** Width of the display. **/
-  uint32 height             = 2; /** Height of the display. **/
-  SSD1306TextSize text_size = 3; /** Desired text 'magnification' size. **/
+message OledConfig {
+  uint32 width    = 1; /** Width of the display. **/
+  uint32 height   = 2; /** Height of the display. **/
+  int32 text_size = 3; /** Desired text 'magnification' size. **/
 }
 
 /**
@@ -139,7 +139,7 @@ message DisplayAddOrReplace {
   oneof config {
     EPDConfig config_epd = 5; /** Config for EPD display */
     TftConfig config_tft = 6; /** Config for TFT display */
-    SSD1306Config config_ssd1306 = 7; /** Config for SSD1306 OLED */
+    OledConfig config_oled = 7; /** Config for SSD1306 OLED */
     LEDBackpackConfig config_led_backpack = 8; /** Config for LED backpack. */
     CharLCDConfig config_char_lcd = 9; /** Config for character LCD. */
   }
