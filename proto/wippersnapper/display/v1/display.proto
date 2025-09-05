@@ -33,25 +33,6 @@ enum EPDMode {
   EPD_MODE_MONO        = 2; /** Monochrome EPD mode */
 }
 
-/**
-* Desired SSD1306 text 'magnification' size.
-*/
-enum SSD1306TextSize {
-  SSD1306_TEXT_SIZE_UNSPECIFIED = 0; /** Unspecified text size. **/
-  SSD1306_TEXT_SIZE_1           = 1; /** Default text size, 6x8px. **/
-  SSD1306_TEXT_SIZE_2           = 2; /** Larger text size option, 12x16px. **/
-}
-
-/**
-* LEDBackpackAlignment represents all text alignment
-* options for LED backpack displays
-*/
-enum LEDBackpackAlignment {
-  LED_BACKPACK_ALIGNMENT_UNSPECIFIED = 0; /** Unspecified alignment option. **/
-  LED_BACKPACK_ALIGNMENT_LEFT        = 1; /** (Default) Left-aligned. **/
-  LED_BACKPACK_ALIGNMENT_RIGHT       = 2; /** Right-aligned. **/
-}
-
 // ============================================================================
 // Configuration Messages
 // ============================================================================
@@ -110,8 +91,8 @@ message OledConfig {
 * LEDBackpackConfig represents the configuration for a LED backpack display.
 */
 message LEDBackpackConfig {
-  int32 brightness                = 1; /** Desired brightness of the LED backpack, from 0 (off) to 15 (full brightness). **/
-  LEDBackpackAlignment alignment  = 2; /** Desired text alignment for the LED backpack. **/
+  int32 brightness = 1; /** Desired brightness, from off to full brightness. **/
+  uint32 alignment = 2; /** Desired text alignment for the LED backpack. **/
 }
 
 /**
