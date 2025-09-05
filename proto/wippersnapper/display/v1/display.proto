@@ -33,6 +33,25 @@ enum EPDMode {
   EPD_MODE_MONO        = 2; /** Monochrome EPD mode */
 }
 
+/**
+* Desired SSD1306 text 'magnification' size.
+*/
+enum SSD1306TextSize {
+  SSD1306_TEXT_SIZE_UNSPECIFIED = 0; /** Unspecified text size. **/
+  SSD1306_TEXT_SIZE_1           = 1; /** Default text size, 6x8px. **/
+  SSD1306_TEXT_SIZE_2           = 2; /** Larger text size option, 12x16px. **/
+}
+
+/**
+* LEDBackpackAlignment represents all text alignment
+* options for LED backpack displays
+*/
+enum LEDBackpackAlignment {
+  LED_BACKPACK_ALIGNMENT_UNSPECIFIED = 0; /** Unspecified alignment option. **/
+  LED_BACKPACK_ALIGNMENT_LEFT        = 1; /** (Default) Left-aligned. **/
+  LED_BACKPACK_ALIGNMENT_RIGHT       = 2; /** Right-aligned. **/
+}
+
 // ============================================================================
 // Configuration Messages
 // ============================================================================
@@ -79,20 +98,20 @@ message I2cConfig {
 }
 
 /**
-* OledConfig represents the configuration for an OLED display.
+* SSD1306Config represents the configuration for a SSD1306 OLED display.
 */
-message OledConfig {
-  uint32 width    = 1; /** Width of the display. **/
-  uint32 height   = 2; /** Height of the display. **/
-  int32 text_size = 3; /** Desired text 'magnification' size. **/
+message SSD1306Config {
+  uint32 width              = 1; /** Width of the display. **/
+  uint32 height             = 2; /** Height of the display. **/
+  SSD1306TextSize text_size = 3; /** Desired text 'magnification' size. **/
 }
 
 /**
 * LEDBackpackConfig represents the configuration for a LED backpack display.
 */
 message LEDBackpackConfig {
-  int32 brightness = 1; /** Desired brightness, from off to full brightness. **/
-  uint32 alignment = 2; /** Desired text alignment for the LED backpack. **/
+  int32 brightness                = 1; /** Desired brightness of the LED backpack, from 0 (off) to 15 (full brightness). **/
+  LEDBackpackAlignment alignment  = 2; /** Desired text alignment for the LED backpack. **/
 }
 
 /**
@@ -120,7 +139,7 @@ message DisplayAddOrReplace {
   oneof config {
     EPDConfig config_epd = 5; /** Config for EPD display */
     TftConfig config_tft = 6; /** Config for TFT display */
-    OledConfig config_oled = 7; /** Config for SSD1306 OLED */
+    SSD1306Config config_ssd1306 = 7; /** Config for SSD1306 OLED */
     LEDBackpackConfig config_led_backpack = 8; /** Config for LED backpack. */
     CharLCDConfig config_char_lcd = 9; /** Config for character LCD. */
   }
