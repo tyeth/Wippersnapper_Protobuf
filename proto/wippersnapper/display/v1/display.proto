@@ -6,7 +6,6 @@ syntax = "proto3";
 
 package wippersnapper.display.v1;
 import "nanopb/nanopb.proto";
-import "wippersnapper/i2c/v1/i2c.proto";
 
 // ============================================================================
 // Enums
@@ -142,3 +141,4 @@ message DisplayRemoved {
   string name     = 1[(nanopb).max_size = 64]; /** Identifies the display. */
   bool did_remove = 2; /** Indicates if a display was removed */
 }
+
