@@ -17,9 +17,8 @@ import "nanopb/nanopb.proto";
  */
 enum DisplayType {
   DISPLAY_TYPE_UNSPECIFIED = 0; /** Unspecified display type. */
-  DISPLAY_TYPE_OLED        = 1; /** OLED display type */
-  DISPLAY_TYPE_EPD         = 2; /** EPD display type */
-  DISPLAY_TYPE_TFT         = 3; /** TFT display type */
+  DISPLAY_TYPE_EPD         = 1; /** EPD display type */
+  DISPLAY_TYPE_TFT         = 2; /** TFT display type */
 }
 
 /**
@@ -30,6 +29,16 @@ enum EPDMode {
   EPD_MODE_UNSPECIFIED = 0; /** Unspecified EPD mode */
   EPD_MODE_GRAYSCALE4  = 1; /** Grayscale 4 EPD mode */
   EPD_MODE_MONO        = 2; /** Monochrome EPD mode */
+}
+
+/**
+ * DisplayDriver determines the specific driver to use for the display.
+ */
+enum DisplayDriver {
+  DISPLAY_DRIVER_UNSPECIFIED = 0; /** Unspecified display driver */
+  DISPLAY_DRIVER_EPD_SSD1680 = 1; /** EPD SSD1680 driver */
+  DISPLAY_DRIVER_EPD_ILI0373 = 2; /** EPD SSD167 driver */
+  DISPLAY_DRIVER_TFT_ST7789  = 3; /** TFT ST7789 driver */
 }
 
 // ============================================================================
@@ -50,18 +59,19 @@ message EpdSpiConfig {
 }
 
 /**
+ * EPDWriteOptions contains options for writing to EPD displays.
+ */
+message EPDWriteOptions { 
+  int32 text_size = 1; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
+}
+
+/**
  * EPDConfig contains the configuration for an EPD display.
  * It includes the mode, dimensions, and panel type.
  */
 message EPDConfig {
   EPDMode mode = 1; /** The mode of the EPD display */
-}
-
-/**
- * EPDWriteOptions contains options for writing to EPD displays.
- */
-message EPDWriteOptions { 
-  int32 text_size = 1; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
+  EPDWriteOptions options = 2; /** Options for writing to the EPD */
 }
 
 /**
@@ -92,15 +102,15 @@ message TftConfig {
  * DisplayAddOrReplace adds a new display or replaces an existing one.
  */
 message DisplayAddOrReplace {
-  DisplayType type = 1; /** The type of display */
-  string name = 2[(nanopb).max_size = 64]; /** Identifier for the display */
+  DisplayType type       = 1; /** The type of display */
+  DisplayDriver driver   = 2; /** The specific driver for the display */
   oneof interface_type {
-    EpdSpiConfig spi_epd = 3; /** SPI configuration for EPD */
-    TftSpiConfig spi_tft = 4; /** SPI configuration for TFT */
+    EpdSpiConfig spi_epd = 3; /** SPI configuration for EPD. */
+    TftSpiConfig spi_tft = 4; /** SPI configuration for TFT. */
   }
   oneof config {
-    EPDConfig config_epd = 5; /** Configuration for EPD display */
-    TftConfig config_tft = 6; /** Configuration for TFT display */
+    EPDConfig config_epd = 5; /** Configuration for EPD. */
+    TftConfig config_tft = 6; /** Configuration for TFT. */
   }
 }
 
@@ -117,9 +127,6 @@ message DisplayRemove {
 message DisplayWrite {
   string name     = 1[(nanopb).max_size = 64]; /** Identifies the display. */
   string message  = 2[(nanopb).max_size = 1024]; /** Message to write. */
-  oneof options {
-    EPDWriteOptions epd_options = 3; /** Options for writing to EPD displays */
-  }
 }
 
 // ============================================================================
