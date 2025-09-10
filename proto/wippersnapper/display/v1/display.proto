@@ -106,13 +106,14 @@ message TftConfig {
 message DisplayAddOrReplace {
   DisplayType type       = 1; /** The type of display */
   DisplayDriver driver   = 2; /** The specific driver for the display */
+  string name = 3[(nanopb).max_size = 64]; /** Identifies the display. */
   oneof interface_type {
-    EpdSpiConfig spi_epd = 3; /** SPI configuration for EPD. */
-    TftSpiConfig spi_tft = 4; /** SPI configuration for TFT. */
+    EpdSpiConfig spi_epd = 4; /** SPI configuration for EPD. */
+    TftSpiConfig spi_tft = 5; /** SPI configuration for TFT. */
   }
   oneof config {
-    EPDConfig config_epd = 5; /** Configuration for EPD. */
-    TftConfig config_tft = 6; /** Configuration for TFT. */
+    EPDConfig config_epd = 6; /** Configuration for EPD. */
+    TftConfig config_tft = 7; /** Configuration for TFT. */
   }
 }
 
