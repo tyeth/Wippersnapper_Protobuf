@@ -70,8 +70,10 @@ message EPDWriteOptions {
  * It includes the mode, dimensions, and panel type.
  */
 message EPDConfig {
-  EPDMode mode = 1; /** The mode of the EPD display */
+  EPDMode mode            = 1; /** The mode of the EPD display */
   EPDWriteOptions options = 2; /** Options for writing to the EPD */
+  int32 width             = 3;   /** Width of the EPD display, in pixels */
+  int32 height            = 4;   /** Height of the EPD display, in pixels */
 }
 
 /**
