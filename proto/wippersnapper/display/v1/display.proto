@@ -127,9 +127,9 @@ message DisplayWrite {
 // ============================================================================
 
 /**
- * DisplayAddedorReplaced confirms a display was added or replaced.
+ * DisplayAddedOrReplaced confirms a display was added or replaced.
  */
-message DisplayAddedorReplaced {
+message DisplayAddedOrReplaced {
   string name  = 1[(nanopb).max_size = 64]; /** Identifier for the display. */
   bool did_add = 2; /** Indicates if a display was added */
 }

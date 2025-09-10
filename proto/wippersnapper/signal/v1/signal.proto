@@ -201,7 +201,7 @@ message DisplayRequest {
 message DisplayResponse {
   option (nanopb_msgopt).submsg_callback = true;
   oneof payload {
-    wippersnapper.display.v1.DisplayAddedorReplaced display_added = 1;
+    wippersnapper.display.v1.DisplayAddedOrReplaced display_added = 1;
     wippersnapper.display.v1.DisplayRemoved display_removed       = 2;
   }
 }
