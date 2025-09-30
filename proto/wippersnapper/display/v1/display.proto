@@ -59,21 +59,14 @@ message EpdSpiConfig {
 }
 
 /**
- * EPDWriteOptions contains options for writing to EPD displays.
- */
-message EPDWriteOptions { 
-  int32 text_size = 1; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
-}
-
-/**
  * EPDConfig contains the configuration for an EPD display.
  * It includes the mode, dimensions, and panel type.
  */
 message EPDConfig {
-  EPDMode mode            = 1; /** The mode of the EPD display */
-  EPDWriteOptions options = 2; /** Options for writing to the EPD */
-  int32 width             = 3;   /** Width of the EPD display, in pixels */
-  int32 height            = 4;   /** Height of the EPD display, in pixels */
+  EPDMode mode    = 1; /** The mode of the EPD display */
+  int32 width     = 2;   /** Width of the EPD display, in pixels */
+  int32 height    = 3;   /** Height of the EPD display, in pixels */
+  int32 text_size = 4; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
 }
 
 /**
@@ -91,9 +84,10 @@ message TftSpiConfig {
 }
 
 message TftConfig {
-  int32 width  = 1;   /** Width of the TFT display in pixels */
-  int32 height = 2;   /** Height of the TFT display in pixels */
-  int32 rotation = 3; /** Rotation of the display (0-3) */
+  int32 width     = 1;   /** Width of the TFT display in pixels */
+  int32 height    = 2;   /** Height of the TFT display in pixels */
+  int32 rotation  = 3; /** Rotation of the display (0-3) */
+  int32 text_size = 4; /** Scale factor for text (1 = 6x8px, 2 = 12x16px,...) */
 }
 
 // ============================================================================
