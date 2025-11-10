@@ -20,13 +20,13 @@ if ! which protoc &> /dev/null; then
 fi
 
 # check protoc-gen-nanopb
-# if ! which protoc-gen-js &> /dev/null; then
-#   echo "Could not find protoc-gen-js on the path! Did you run 'mise install'?"
-#   exit 1
-# fi
+PROTOC_GEN_NANOPB=nanopb/generator/protoc-gen-nanopb
+if ! ls $PROTOC_GEN_NANOPB &> /dev/null; then
+  printf "Did not find $PROTOC_GEN_NANOPB in the repo! Did you init submodules?\ngit submodule init\ngit submodule update\n"
+  exit 1
+fi
 
 
 # invoke protoc with nanopb and wippersnapper proto files, the js plugin, and output location
-# protoc --plugin=`which protoc-gen-js` --proto_path=./proto ./proto/nanopb/nanopb.proto ./proto/wippersnapper/*/*/*.proto --js_out=import_style=commonjs,binary:js_out
-protoc --plugin=nanopb/generator/protoc-gen-nanopb --proto_path=./nanopb/generator/proto --proto_path=./proto ./proto/wippersnapper/*/*/*.proto --nanopb_out=./$OUT_PATH --nanopb_opt=-I./proto --nanopb_opt=-t
+protoc --plugin=$PROTOC_GEN_NANOPB --proto_path=./nanopb/generator/proto --proto_path=./proto ./proto/wippersnapper/*/*/*.proto --nanopb_out=./$OUT_PATH --nanopb_opt=-I./proto --nanopb_opt=-t
 
