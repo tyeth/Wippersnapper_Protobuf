@@ -11,8 +11,11 @@ jobs:
         with:
           submodules: true
 
-      - name: Dependencies
+      - name: Tool Dependencies
         uses: jdx/mise-action/@v2
+
+      - name: Lib Dependencies
+        run: pip install python3-protobuf
 
       - name: Build JS
         run: |
