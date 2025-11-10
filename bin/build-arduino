@@ -26,7 +26,6 @@ if ! ls $PROTOC_GEN_NANOPB &> /dev/null; then
   exit 1
 fi
 
-
-# invoke protoc with nanopb and wippersnapper proto files, the js plugin, and output location
+# invoke protoc with nanopb plugin, nanopb and wippersnapper proto files, and output location
 protoc --plugin=$PROTOC_GEN_NANOPB --proto_path=./nanopb/generator/proto --proto_path=./proto ./proto/wippersnapper/*/*/*.proto --nanopb_out=./$OUT_PATH --nanopb_opt=-I./proto --nanopb_opt=-t
 
