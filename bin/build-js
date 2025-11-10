@@ -21,4 +21,4 @@ fi
 
 
 # invoke protoc with the js plugin and output locations
-protoc --plugin=`which protoc-gen-js` --proto_path=./proto/wippersnapper ./proto/wippersnapper/*.proto --js_out=import_style=commonjs,binary:js_out
+protoc --plugin=`which protoc-gen-js` --proto_path=./proto ./proto/wippersnapper/*/*/*.proto --js_out=import_style=commonjs,binary:js_out
