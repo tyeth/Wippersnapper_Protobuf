@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# move to the directory above this file
+cd "${0%/*}/.."
+
+# ensure output dir is present
+mkdir -p js_out
+
+# activate mise and make sure tools are present
+eval "$(mise activate bash)"
+
+if ! which protoc &> /dev/null; then
+  echo "Could not find protoc on the path! Did you run 'mise install'?"
+  exit 1
+fi
+
+if ! which protoc-gen-js &> /dev/null; then
+  echo "Could not find protoc-gen-js on the path! Did you run 'mise install'?"
+  exit 1
+fi
+
+
+# invoke protoc with the js plugin and output locations
+protoc --plugin=`which protoc-gen-js` --proto_path=./proto/wippersnapper ./proto/wippersnapper/*.proto --js_out=import_style=commonjs,binary:js_out
