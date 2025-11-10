@@ -17,10 +17,18 @@ jobs:
       - name: Lib Dependencies
         run: pip install python3-protobuf
 
+      - run: |
+          which python
+          which pip
+          which protoc
+          which protoc-gen-js
+          which protolint
+
       - name: Build JS
-        run: |
-          bin/build-js
-          bin/build-arduino
+        run: bin/build-js
+
+      - name: Build Arduino
+        run: bin/build-arduino
 
       - uses: actions/upload-artifact@v4
         with:
