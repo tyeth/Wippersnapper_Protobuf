@@ -18,11 +18,12 @@ jobs:
         run: pip install python3-protobuf
 
       - run: |
-          which python
-          which pip
           which protoc
           which protoc-gen-js
           which protolint
+          which python
+          which pip
+          pip list
 
       - name: Build JS
         run: bin/build-js
