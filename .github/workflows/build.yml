@@ -39,13 +39,16 @@ jobs:
         with:
             name: javascript-wrapper
             path: ./js_out
+            if-no-files-found: error
 
       - uses: actions/upload-artifact@v4
         with:
             name: arduino-wrapper
             path: ./arduino_out
+            if-no-files-found: error
 
       - uses: actions/upload-artifact@v4
         with:
             name: python-wrapper
             path: ./python_out
+            if-no-files-found: error

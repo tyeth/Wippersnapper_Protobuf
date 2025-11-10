@@ -24,12 +24,12 @@ if ! which python &> /dev/null; then
   exit 1
 fi
 
-# check protoc-gen-nanopb
-# PROTOC_GEN_NANOPB=nanopb/generator/protoc-gen-nanopb
-# if ! ls $PROTOC_GEN_NANOPB &> /dev/null; then
-#   printf "Did not find $PROTOC_GEN_NANOPB in the repo! Did you init submodules?\ngit submodule init\ngit submodule update\n"
-#   exit 1
-# fi
+# check nanopb protos
+NANOPB_PROTO=nanopb/generator/proto
+if ! ls $NANOPB_PROTO &> /dev/null; then
+  printf "Did not find $NANOPB_PROTO in the repo! Did you init submodules?\ngit submodule init\ngit submodule update\n"
+  exit 1
+fi
 
 # invoke protoc with nanopb plugin, nanopb and wippersnapper proto files, and output location
-protoc --proto_path=./nanopb/generator/proto --proto_path=./proto ./proto/wippersnapper/*/*/*.proto --python_out=./$OUT_PATH
+protoc --proto_path=$NANOPB_PROTO --proto_path=./proto ./proto/wippersnapper/*/*/*.proto --python_out=./$OUT_PATH
