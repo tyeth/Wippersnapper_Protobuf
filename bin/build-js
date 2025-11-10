@@ -3,13 +3,17 @@
 # move to the directory above this file
 cd "${0%/*}/.."
 
-# ensure output dir is present
-rm -rf js_out
-mkdir js_out
+# vars
+OUT_PATH=js_out
 
-# activate mise and make sure tools are present
+# ensure output dir is present
+rm -rf $OUT_PATH
+mkdir $OUT_PATH
+
+# activate mise
 eval "$(mise activate bash)"
 
+# make sure necessary tools are present
 if ! which protoc &> /dev/null; then
   echo "Could not find protoc on the path! Did you run 'mise install'?"
   exit 1
@@ -22,4 +26,4 @@ fi
 
 
 # invoke protoc with nanopb and wippersnapper proto files, the js plugin, and output location
-protoc --plugin=`which protoc-gen-js` --proto_path=./proto ./proto/nanopb/nanopb.proto ./proto/wippersnapper/*/*/*.proto --js_out=import_style=commonjs,binary:js_out
+protoc --plugin=`which protoc-gen-js` --proto_path=./proto ./proto/nanopb/nanopb.proto ./proto/wippersnapper/*/*/*.proto --js_out=import_style=commonjs,binary:$OUT_PATH
