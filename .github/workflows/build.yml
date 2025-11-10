@@ -15,12 +15,12 @@ jobs:
         uses: jdx/mise-action/@v2
 
       - name: Lib Dependencies
-        # run: pip install python3-protobuf
         run: pip install protobuf setuptools
 
-      - run: |
+      - name: Env Debug Info
+        run: |
           protoc --version
-          # protoc-gen-js
+          which protoc-gen-js
           protolint -v
           python --version
           pip --version
@@ -36,3 +36,8 @@ jobs:
         with:
             name: javascript-wrapper
             path: ./js_out
+
+      - uses: actions/upload-artifact@v4
+        with:
+            name: arduino-wrapper
+            path: ./arduino_out
