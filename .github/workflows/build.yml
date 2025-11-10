@@ -32,6 +32,9 @@ jobs:
       - name: Build Arduino
         run: bin/build-arduino
 
+      - name: Build Python
+        run: bin/build-python
+
       - uses: actions/upload-artifact@v4
         with:
             name: javascript-wrapper
@@ -41,3 +44,8 @@ jobs:
         with:
             name: arduino-wrapper
             path: ./arduino_out
+
+      - uses: actions/upload-artifact@v4
+        with:
+            name: python-wrapper
+            path: ./python_out
