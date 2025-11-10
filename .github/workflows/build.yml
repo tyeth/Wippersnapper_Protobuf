@@ -15,4 +15,8 @@ jobs:
       - name: Build JS
         run: |
           bin/build-js
-          ls js_out
+
+      - uses: actions/upload-artifact@v4
+        with:
+            name: javascript-wrapper
+            path: ./js_out
